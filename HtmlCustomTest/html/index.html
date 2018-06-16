@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Custom Tag</title>
+    <template id="custom-temp">
+        <style>
+            .col{
+                color: red;
+            }
+        </style>
+        <div class="col"><content></content></div>
+
+    </template>
+    <script>
+        class CustomTag extends HTMLElement{
+            constructor(){
+                super();
+                const template = document.querySelector("#custom-temp");
+                const node = document.importNode(template.content,true);
+                this.createShadowRoot();
+                this.shadowRoot.appendChild(node);
+            }
+        }
+        customElements.define("custom-tag",CustomTag);
+    </script>
+</head>
+<body>
+    <h1>Custom Tag Test</h1>
+    <p>test</p>
+    <p>ああああ</p>
+    <custom-tag data-url="https://...">ここがカスタムタグ</custom-tag>
+    <p>ああああ</p>
+    <custom-tag data-url="http://...">これもカスタムタグ</custom-tag>
+
+    <script>
+        console.log(document.getElementsByTagName("custom-tag"));
+    </script>
+</body>
+</html>
